@@ -1,0 +1,42 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    height: 100vh;
+    margin: 0;
+}
+.test-container {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    margin: auto;
+}
+#quote-display {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    resize: none;
+}
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    font-weight: bold;
+}
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+}
