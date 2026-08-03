@@ -9,14 +9,18 @@
 <body>
     <div class="test-container">
         <h1>Typing Speed Test</h1>
-        <p id="quote-display">The quick brown fox jumps over the lazy dog.</p>
-        <textarea id="quote-input" placeholder="Start typing here to begin the test..." autofocus></textarea>
+        
+        <div class="input-container">
+            <div id="quote-display"></div>
+            <textarea id="quote-input" autofocus></textarea>
+        </div>
+
         <div class="stats">
             <div>Time: <span id="timer">0</span>s</div>
             <div>WPM: <span id="wpm">0</span></div>
             <div>Best: <span id="best-wpm">0</span></div>
-            <div>Faster Than: <span id="percentile">0</span>%</div>
-            <div>Est. World Rank: #<span id="world-rank">8,000,000,000</span></div>
+            <div>Faster Than: <span id="percentile">0.0</span>%</div>
+            <div>Est. Rank: #<span id="world-rank">50,000,000</span></div>
         </div>
         <button id="reset-btn">Restart</button>
     </div>
