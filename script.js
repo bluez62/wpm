@@ -19,14 +19,34 @@ const quotes = [
 
 let startTime;
 let timerInterval;
+let currentQuote = ""; // Track current active quote string
 
 let bestWpm = localStorage.getItem('bestWpm') || 0;
 bestWpmElement.innerText = bestWpm;
 
-// 2. Pick a random quote from the array
+// 2. Render quote text and handle overlay character fading
+function renderQuote() {
+    const typedText = quoteInput.value;
+    let displayHTML = '';
+    
+    for (let i = 0; i < currentQuote.length; i++) {
+        if (i < typedText.length) {
+            // Hide already typed characters underneath
+            displayHTML += `<span style="opacity: 0;">${currentQuote[i]}</span>`;
+        } else {
+            // Remaining untyped characters remain visible
+            displayHTML += `<span>${currentQuote[i]}</span>`;
+        }
+    }
+    
+    quoteDisplay.innerHTML = displayHTML;
+}
+
+// 3. Pick a random quote from the array
 function setNextQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
-    quoteDisplay.innerText = quotes[randomIndex];
+    currentQuote = quotes[randomIndex];
+    renderQuote();
 }
 
 function startTimer() {
@@ -44,11 +64,10 @@ function calculateWpm() {
     if (timeElapsedInMinutes <= 0) return 0;
 
     const typedText = quoteInput.value;
-    const targetText = quoteDisplay.innerText;
     let correctChars = 0;
 
     for (let i = 0; i < typedText.length; i++) {
-        if (typedText[i] === targetText[i]) {
+        if (typedText[i] === currentQuote[i]) {
             correctChars++;
         } else {
             break;
@@ -111,38 +130,15 @@ function resetTest() {
     percentileElement.innerText = "0.0";
     worldRankElement.innerText = "50,000,000";
     
-    // Pick a new quote on reset!
     setNextQuote(); 
 }
 
-// Function to display quote and highlight typed characters
-function renderQuote() {
-    const targetText = currentQuote; 
-    const typedText = quoteInput.value;
-    
-    // Build HTML for quote-display
-    let displayHTML = '';
-    
-    for (let i = 0; i < targetText.length; i++) {
-        if (i < typedText.length) {
-            // Hide already typed characters (or style them)
-            displayHTML += `<span style="opacity: 0;">${targetText[i]}</span>`;
-        } else {
-            // Remaining untyped characters remain visible
-            displayHTML += `<span>${targetText[i]}</span>`;
-        }
-    }
-    
-    quoteDisplay.innerHTML = displayHTML;
-}
-
-// Call renderQuote() inside your input listener:
 quoteInput.addEventListener('input', () => {
     if (!timerInterval) {
         startTimer();
     }
 
-    renderQuote(); // Updates background text on every keypress
+    renderQuote(); 
 
     const currentWpm = calculateWpm();
     updateStatsUI(currentWpm);
