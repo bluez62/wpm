@@ -9,7 +9,7 @@ const resetBtn = document.getElementById('reset-btn');
 
 // 1. Add your quotes here!
 const quotes = [
-    "The quick brown fox jumps over the lazy dog.",
+    "Forests are large areas of land covered with trees and thick plant life. They act as the green lungs of our planet by absorbing carbon dioxide and releasing clean oxygen into the air. Millions of unique animal and plant species make their homes within these complex woodland habitats. Healthy forests also protect vital water supplies and prevent dangerous soil erosion during heavy storms. Unfortunately, human activities like illegal logging and rapid urban growth continue to threaten these peaceful natural environments. Protecting and restoring our global woodland areas is an essential duty for all future generations.",
     "To be or not to be, that is the question.",
     "All that glitters is not gold.",
     "Precision and speed are the keys to fast typing.",
