@@ -7,11 +7,27 @@ const percentileElement = document.getElementById('percentile');
 const worldRankElement = document.getElementById('world-rank');
 const resetBtn = document.getElementById('reset-btn');
 
+// 1. Add your quotes here!
+const quotes = [
+    "The quick brown fox jumps over the lazy dog.",
+    "To be or not to be, that is the question.",
+    "All that glitters is not gold.",
+    "Precision and speed are the keys to fast typing.",
+    "Coding is the language of the future.",
+    "Practice makes perfect when training your muscle memory."
+];
+
 let startTime;
 let timerInterval;
 
 let bestWpm = localStorage.getItem('bestWpm') || 0;
 bestWpmElement.innerText = bestWpm;
+
+// 2. Pick a random quote from the array
+function setNextQuote() {
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    quoteDisplay.innerText = quotes[randomIndex];
+}
 
 function startTimer() {
     startTime = new Date();
@@ -48,11 +64,11 @@ function calculateWpm() {
 }
 
 function calculateGlobalStats(wpm) {
-    if (wpm <= 0) return { percentile: 0, rank: "8,000,000,000" };
+    if (wpm <= 0) return { percentile: "0.0", rank: "50,000,000" };
 
-    const mean = 40;
-    const sd = 15;
-    const totalPopulation = 8000000000;
+    const mean = 70;
+    const sd = 22;
+    const poolSize = 50000000;
 
     const z = (wpm - mean) / sd;
 
@@ -61,10 +77,10 @@ function calculateGlobalStats(wpm) {
     let p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
     
     let percentile = z > 0 ? 1 - p : p;
-    percentile = Math.min(Math.max(percentile, 0.00000001), 0.99999999);
+    percentile = Math.min(Math.max(percentile, 0.00001), 0.99999);
 
     const percentBetter = (percentile * 100).toFixed(1);
-    const rawRank = Math.round(totalPopulation * (1 - percentile));
+    const rawRank = Math.round(poolSize * (1 - percentile));
     const rank = Math.max(rawRank, 1).toLocaleString();
 
     return { percentile: percentBetter, rank };
@@ -84,6 +100,21 @@ function updateBestWpm(currentWpm) {
     }
 }
 
+function resetTest() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    startTime = null;
+    quoteInput.disabled = false;
+    quoteInput.value = "";
+    timerElement.innerText = 0;
+    wpmElement.innerText = 0;
+    percentileElement.innerText = "0.0";
+    worldRankElement.innerText = "50,000,000";
+    
+    // Pick a new quote on reset!
+    setNextQuote(); 
+}
+
 quoteInput.addEventListener('input', () => {
     if (!timerInterval) {
         startTimer();
@@ -99,14 +130,7 @@ quoteInput.addEventListener('input', () => {
     }
 });
 
-resetBtn.addEventListener('click', () => {
-    clearInterval(timerInterval);
-    timerInterval = null;
-    startTime = null;
-    quoteInput.disabled = false;
-    quoteInput.value = "";
-    timerElement.innerText = 0;
-    wpmElement.innerText = 0;
-    percentileElement.innerText = 0;
-    worldRankElement.innerText = "8,000,000,000";
-});
+resetBtn.addEventListener('click', resetTest);
+
+// Initialize with a random quote when page loads
+setNextQuote();
