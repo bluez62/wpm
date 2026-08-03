@@ -2,15 +2,18 @@ const quoteDisplay = document.getElementById('quote-display');
 const quoteInput = document.getElementById('quote-input');
 const timerElement = document.getElementById('timer');
 const wpmElement = document.getElementById('wpm');
+const bestWpmElement = document.getElementById('best-wpm');
 const resetBtn = document.getElementById('reset-btn');
 
 let startTime;
 let timerInterval;
 
+// Load stored best WPM on page load
+let bestWpm = localStorage.getItem('bestWpm') || 0;
+bestWpmElement.innerText = bestWpm;
+
 function startTimer() {
     startTime = new Date();
-    
-    // Timer display interval (just updates the displayed seconds)
     timerInterval = setInterval(() => {
         const timeElapsed = Math.floor((new Date() - startTime) / 1000);
         timerElement.innerText = timeElapsed;
@@ -18,13 +21,11 @@ function startTimer() {
 }
 
 function calculateWpm() {
-    if (!startTime) return;
+    if (!startTime) return 0;
 
-    // 1. Calculate precise elapsed time in minutes
     const timeElapsedInMinutes = (new Date() - startTime) / 1000 / 60;
-    if (timeElapsedInMinutes <= 0) return;
+    if (timeElapsedInMinutes <= 0) return 0;
 
-    // 2. Count ONLY correctly typed characters
     const typedText = quoteInput.value;
     const targetText = quoteDisplay.innerText;
     let correctChars = 0;
@@ -33,16 +34,25 @@ function calculateWpm() {
         if (typedText[i] === targetText[i]) {
             correctChars++;
         } else {
-            // Stop counting correct characters past the first mistake (optional standard practice)
-            break; 
+            break;
         }
     }
 
-    // 3. Standard WPM formula: (Correct Characters / 5) / Time in Minutes
     const words = correctChars / 5;
     const wpm = Math.round(words / timeElapsedInMinutes);
+    const finalWpm = wpm >= 0 ? wpm : 0;
+    
+    wpmElement.innerText = finalWpm;
+    return finalWpm;
+}
 
-    wpmElement.innerText = wpm >= 0 ? wpm : 0;
+function updateBestWpm(currentWpm) {
+    if (currentWpm > bestWpm) {
+        bestWpm = currentWpm;
+        bestWpmElement.innerText = bestWpm;
+        // Save to browser storage
+        localStorage.setItem('bestWpm', bestWpm); 
+    }
 }
 
 quoteInput.addEventListener('input', () => {
@@ -50,12 +60,15 @@ quoteInput.addEventListener('input', () => {
         startTimer();
     }
 
-    // Calculate WPM instantly on every keypress
-    calculateWpm();
+    const currentWpm = calculateWpm();
 
+    // Check if the user finished the test
     if (quoteInput.value === quoteDisplay.innerText) {
         clearInterval(timerInterval);
         quoteInput.disabled = true;
+        
+        // Update high score when the test completes
+        updateBestWpm(currentWpm);
     }
 });
 
