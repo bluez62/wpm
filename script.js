@@ -115,15 +115,39 @@ function resetTest() {
     setNextQuote(); 
 }
 
+// Function to display quote and highlight typed characters
+function renderQuote() {
+    const targetText = currentQuote; 
+    const typedText = quoteInput.value;
+    
+    // Build HTML for quote-display
+    let displayHTML = '';
+    
+    for (let i = 0; i < targetText.length; i++) {
+        if (i < typedText.length) {
+            // Hide already typed characters (or style them)
+            displayHTML += `<span style="opacity: 0;">${targetText[i]}</span>`;
+        } else {
+            // Remaining untyped characters remain visible
+            displayHTML += `<span>${targetText[i]}</span>`;
+        }
+    }
+    
+    quoteDisplay.innerHTML = displayHTML;
+}
+
+// Call renderQuote() inside your input listener:
 quoteInput.addEventListener('input', () => {
     if (!timerInterval) {
         startTimer();
     }
 
+    renderQuote(); // Updates background text on every keypress
+
     const currentWpm = calculateWpm();
     updateStatsUI(currentWpm);
 
-    if (quoteInput.value === quoteDisplay.innerText) {
+    if (quoteInput.value === currentQuote) {
         clearInterval(timerInterval);
         quoteInput.disabled = true;
         updateBestWpm(currentWpm);
