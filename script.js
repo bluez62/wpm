@@ -138,7 +138,9 @@ quoteInput.addEventListener('input', () => {
         startTimer();
     }
 
-    renderQuote(); 
+    renderQuote();
+
+    quoteDisplay.scrollTop = quoteInput.scrollTop;
 
     const currentWpm = calculateWpm();
     updateStatsUI(currentWpm);
