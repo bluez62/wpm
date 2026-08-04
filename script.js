@@ -22,17 +22,14 @@ let currentQuote = "";
 let bestWpm = localStorage.getItem('bestWpm') || 0;
 bestWpmElement.innerText = bestWpm;
 
-// 2. Render quote text and handle overlay character fading
 function renderQuote() {
     const typedText = quoteInput.value;
     let displayHTML = '';
     
     for (let i = 0; i < currentQuote.length; i++) {
         if (i < typedText.length) {
-            // Hide already typed characters underneath
             displayHTML += `<span style="opacity: 0;">${currentQuote[i]}</span>`;
         } else {
-            // Remaining untyped characters remain visible
             displayHTML += `<span>${currentQuote[i]}</span>`;
         }
     }
@@ -40,7 +37,6 @@ function renderQuote() {
     quoteDisplay.innerHTML = displayHTML;
 }
 
-// 3. Pick a random quote from the array
 function setNextQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     currentQuote = quotes[randomIndex];
@@ -152,5 +148,4 @@ quoteInput.addEventListener('input', () => {
 
 resetBtn.addEventListener('click', resetTest);
 
-// Initialize with a random quote when page loads
 setNextQuote();
