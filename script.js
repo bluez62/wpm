@@ -7,19 +7,17 @@ const percentileElement = document.getElementById('percentile');
 const worldRankElement = document.getElementById('world-rank');
 const resetBtn = document.getElementById('reset-btn');
 
-// 1. Add your quotes here!
 const quotes = [
-    "Forests are large areas of land covered with trees and thick plant life. They act as the green lungs of our planet by absorbing carbon dioxide and releasing clean oxygen into the air. Millions of unique animal and plant species make their homes within these complex woodland habitats. Healthy forests also protect vital water supplies and prevent dangerous soil erosion during heavy storms. Unfortunately, human activities like illegal logging and rapid urban growth continue to threaten these peaceful natural environments. Protecting and restoring our global woodland areas is an essential duty for all future generations.",
-    "To be or not to be, that is the question.",
-    "All that glitters is not gold.",
-    "Precision and speed are the keys to fast typing.",
-    "Coding is the language of the future.",
-    "Practice makes perfect when training your muscle memory."
+    "Octopuses are smart sea animals with three hearts, blue blood, and eight flexible arms.",
+    "The ocean covers 71 percent of Earth, making it a massive world of water, life, and weather.",
+    "The endless blue canopy shifts from golden sunrises to starry nights, inspiring wonder with drifting clouds and painting infinite horizons.",
+    "Cosmic expansion drives galaxies apart, while mysterious dark matter holds them together, hiding secrets of our universe’s ultimate fate.",
+    "Mars is a cold, desert world with a thin atmosphere, massive volcanoes, and signs of ancient liquid water.",
 ];
 
 let startTime;
 let timerInterval;
-let currentQuote = ""; // Track current active quote string
+let currentQuote = "";
 
 let bestWpm = localStorage.getItem('bestWpm') || 0;
 bestWpmElement.innerText = bestWpm;
